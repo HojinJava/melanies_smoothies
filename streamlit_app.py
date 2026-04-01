@@ -9,6 +9,7 @@ smoothiefroot_response = requests.get("https://www.smoothiefroot.com/api/fruit/a
 
 sf_df = st.dataframe(data=smoothiefroot_response.json(), use_container_width=True)
 
+
 # Write directly to the app
 st.title(":cup_with_straw: Customize Your Smoothie! :cup_with_straw:")
 st.write("Choose the fruits you want in your custom Smoothie!")
@@ -26,6 +27,15 @@ ingredients_list = st.multiselect(
     , my_dataframe
     , max_selections=5
 )
+
+if ingredients_list:
+    ingredients_string = ''
+
+    for fruit_chosen in ingredients_list:
+        ingredients_string += fruit_chosen + ' '
+        st.subheader(fruit_chosen + ' Nutrition Information')
+        smoothiefroot_response = requests.get("https://www.smoothiefroot.com/api/fruit/" + fruit_chosen)
+        sf_df = st.dataframe(data=smoothiefroot_response.json(), use_container_width=True)
 
 if ingredients_list:
     ingredients_string = ''
